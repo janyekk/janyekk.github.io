@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonda Prezydencka 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .candidate {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f8f8f8;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .candidate h3 {
+            font-size: 1.2em;
+            margin: 0;
+        }
+        .vote-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .vote-button:hover {
+            background-color: #45a049;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 15px;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            margin-top: 10px;
+        }
+        .progress-bar span {
+            display: block;
+            height: 100%;
+            border-radius: 5px;
+        }
+        .percent {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sonda Prezydencka 2025</h1>
+
+    <div id="candidates-container">
+        <!-- Lista kandydatów będzie generowana przez JavaScript -->
+    </div>
+
+    <div class="text-center">
+        <p><strong>Łączna liczba głosów: <span id="total-votes">0</span></strong></p>
+    </div>
+</div>
+
+<script>
+    const candidates = [
+        { name: "Rafał Trzaskowski", votes: 0 },
+        { name: "Karol Nawrocki", votes: 0 },
+        { name: "Sławomir Mentzen", votes: 0 },
+        { name: "Szymon Hołownia", votes: 0 },
+        { name: "Magdalena Biejat", votes: 0 },
+        { name: "Krzysztof Stanowski", votes: 0 },
+        { name: "Grzegorz Braun", votes: 0 },
+        { name: "Marek Jakubiak", votes: 0 },
+        { name: "Adrian Zandberg", votes: 0 },
+        { name: "Inny", votes: 0 }
+    ];
+
+    // Funkcja do aktualizacji widoku
+    function updateView() {
+        const totalVotes = candidates.reduce((sum, candidate) => sum + candidate.votes, 0);
+        document.getElementById('total-votes').textContent = totalVotes;
+
+        const container = document.getElementById('candidates-container');
+        container.innerHTML = '';
+
+        candidates.forEach((candidate, index) => {
+            const candidateElement = document.createElement('div');
+            candidateElement.classList.add('candidate');
+            
+            const progressValue = totalVotes > 0 ? (candidate.votes / totalVotes) * 100 : 0;
+
+            candidateElement.innerHTML = `
+                <h3>${candidate.name}</h3>
+                <div>
+                    <button class="vote-button" onclick="addVote(${index})">Głosuj</button>
+                </div>
+                <div class="progress-bar">
+                    <span style="width: ${progressValue}%; background-color: #4CAF50;"></span>
+                </div>
+                <p class="percent">${candidate.votes} głosów (${progressValue.toFixed(1)}%)</p>
+            `;
+            
+            container.appendChild(candidateElement);
+        });
+    }
+
+    // Funkcja do dodawania głosów
+    function addVote(index) {
+        candidates[index].votes += 1;
+        updateView();
+    }
+
+    // Inicjalizacja widoku
+    updateView();
+</script>
+
+</body>
+</html>
